@@ -1,7 +1,7 @@
 # codeserver-reverse-proxy
 
-python-codeserver:
+node-codeserver:
 
 ```bash
-docker pull poridhi/codeserver-python:v1.2
+docker pull poridhi/codeserver-node:v1.1
 ```

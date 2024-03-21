@@ -1,10 +1,10 @@
-tag := v1.2
-env := python
+tag := v1.1
+env := node
 repo := poridhi
 
 build:
 	@ echo "Building Docker image for repository ${repo}, environment ${env}, tag ${tag}..."
-	@ docker build --platform linux/amd64 -t ${repo}/codeserver-${env}:${tag} -f Dockerfile.python .
+	@ docker build --platform linux/amd64 -t ${repo}/codeserver-${env}:${tag} -f Dockerfile.${env} .
 
 run:
 	@ echo "Starting Docker container for repository ${repo}, environment ${env}..."
