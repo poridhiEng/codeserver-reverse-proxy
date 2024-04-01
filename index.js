@@ -12,13 +12,9 @@ var app = express();
 var proxy = httpProxy.createProxyServer({ target: 'http://localhost:8080', ws: true });
 var server = require('http').createServer(app);
 
-// proxy HTTP GET / POST
+// proxy HTTP GET
 app.get('/*', function(req, res) {
   logger("Proxying GET request: " + req.url);
-  proxy.web(req, res, {});
-});
-app.post('/chat/*', function(req, res) {
-  logger("Proxying POST request: " + req.url);
   proxy.web(req, res, {});
 });
 
