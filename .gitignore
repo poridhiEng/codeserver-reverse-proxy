@@ -1,3 +1,4 @@
 local
 config
 venv
+node_modules
