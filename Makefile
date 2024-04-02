@@ -1,21 +1,21 @@
-tag := v1.2
-env := python
+tag := v1.1
 repo := poridhi
+image := codeserver-proxy
 
 build:
-	@ echo "Building Docker image for repository ${repo}, environment ${env}, tag ${tag}..."
-	@ docker build --platform linux/amd64 -t ${repo}/codeserver-${env}:${tag} -f Dockerfile.python .
+	@ echo "Building Docker image for repository ${repo}, image ${image}, tag ${tag}..."
+	@ docker build --platform linux/amd64 -t ${repo}/${image}:${tag} -f Dockerfile .
 
 run:
-	@ echo "Starting Docker container for repository ${repo}, environment ${env}..."
-	@ docker run --name codeserver-${env} -p 8080:8080 ${repo}/codeserver-${env}:${tag}
+	@ echo "Starting Docker container for repository ${repo}, image ${image}..."
+	@ docker run --name ${image} -p 3000:3000 ${repo}/${image}:${tag}
 
 clean:
-	@ echo "Stopping and removing Docker container for repository ${repo}, environment ${env}..."
-	@ docker stop codeserver-${env}
-	@ docker rm codeserver-${env}
+	@ echo "Stopping and removing Docker container for repository ${repo}, image ${image}..."
+	@ docker stop ${image}
+	@ docker rm ${image}
 
 push:
-	@ echo "Pushing Docker image for repository ${repo}, environment ${env}, tag ${tag} to the registry..."
-	@ docker push ${repo}/codeserver-${env}:${tag}
-	@ echo "Image ${repo}/codeserver-${env}:${tag} successfully pushed to the registry."
+	@ echo "Pushing Docker image for repository ${repo}, image ${image}, tag ${tag} to the registry..."
+	@ docker push ${repo}/${image}:${tag}
+	@ echo "Image ${repo}/${image}:${tag} successfully pushed to the registry."
