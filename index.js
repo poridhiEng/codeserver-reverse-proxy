@@ -1,32 +1,31 @@
-var http = require('http'),
-    httpProxy = require('http-proxy'),
-    express = require('express');
+const express = require('express');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
-// Logger function
-function logger(message) {
-  console.log(new Date().toISOString() + ' - ' + message);
+const app = express();
+
+
+function logger(req, res, next) {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  next();
 }
 
-// create a server
-var app = express();
-var proxy = httpProxy.createProxyServer({ target: 'http://localhost:8080', ws: true });
-var server = require('http').createServer(app);
+app.use(logger);
 
-// proxy HTTP GET
-app.get('/*', function(req, res) {
-  logger("Proxying GET request: " + req.url);
-  proxy.web(req, res, {});
-});
+app.use(
+  '/:api',
+  createProxyMiddleware({
+    target: 'http://localhost:6060',
+    ws: true,
+    logLevel: 'debug', 
+    onProxyReq: (proxyReq, req, res) => {
+      console.log(`[Proxy] ${req.method} ${req.url} => ${proxyReq._headers.host}`);
+    },
+    onProxyRes: (proxyRes, req, res) => {
+      console.log(`[Proxy] ${req.method} ${req.url} => ${proxyRes.socket._host}`);
+    },
+  }),
+);
 
-// Proxy websockets
-server.on('upgrade', function (req, socket, head) {
-  logger("Proxying WebSocket upgrade request: " + req.url);
-  proxy.ws(req, socket, head);
-});
-
-// serve static content
-app.use('/', express.static(__dirname + "/public"));
-
-server.listen(9000, function() {
-  logger('Server is running on port 9000');
+app.listen(3000, () => {
+  console.log('Server is listening on port 3000');
 });
