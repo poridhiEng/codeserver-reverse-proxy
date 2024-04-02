@@ -43,8 +43,8 @@ Let's run a Docker container to create a server that will be proxied.
 
 But when I hit the url `http://localhost:3000/anynamespace/?folder=app`, I am getting workspace related issues like this:
 
-![Issues](https://github.com/poridhiEng/codeserver-reverse-proxy/tree/feature/node-reverser-proxy/issues/issue.png)
+![Issues](https://github.com/poridhiEng/codeserver-reverse-proxy/blob/feature/node-reverser-proxy/issues/issue.png?raw=true)
 
 But, we can simply create a new workspace with root.
 
-![Workspace](https://github.com/poridhiEng/codeserver-reverse-proxy/tree/feature/node-reverser-proxy/issues/solution.png)
+![Workspace](https://github.com/poridhiEng/codeserver-reverse-proxy/blob/feature/node-reverser-proxy/issues/solution.png?raw=true)
