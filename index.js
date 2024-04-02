@@ -16,7 +16,7 @@ app.use(
     // Extracting the :api parameter from the request URL
     const api = req.params.api;
     // Constructing the dynamic target URL
-    const target = `http://${api}.${api}.svc.cluster.local`;
+    const target = `${api}.${api}.svc.cluster.local`;
     // Logging the constructed target URL
     console.log(`[${new Date().toISOString()}] Target URL: ${target}`);
     // Updating the target option in the proxy middleware
@@ -24,7 +24,7 @@ app.use(
     next();
   },
   createProxyMiddleware({
-    target: function(req) {
+    target: function(req) { 
       // Accessing the dynamically constructed target URL from the request object
       return req.proxyTarget;
     },
