@@ -7,6 +7,7 @@ Brief description of what the project does.
 - [Installation](#installation)
 - [Usage](#usage)
 - [Container](#container)
+- [Issues](#issues)
 
 ## Installation
 
@@ -37,3 +38,13 @@ Let's run a Docker container to create a server that will be proxied.
     ```bash
     docker run --name codeserver-python -p 6060:8080 poridhi/codeserver-python:v1.2
     ```
+
+## Issues
+
+But when I hit the url `http://localhost:3000/anynamespace/?folder=app`, I am getting workspace related issues like this:
+
+![Issues](https://github.com/poridhiEng/codeserver-reverse-proxy/tree/feature/node-reverser-proxy/issues/issue.png)
+
+But, we can simply create a new workspace with root.
+
+![Workspace](https://github.com/poridhiEng/codeserver-reverse-proxy/tree/feature/node-reverser-proxy/issues/solution.png)
