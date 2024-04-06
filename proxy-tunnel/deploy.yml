@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 
+  namespace: http-tunnel
+spec:
+  replicas: 1  # You can adjust the number of replicas as needed
+  selector:
+    matchLabels:
+      app: http-tunnel
+  template:
+    metadata:
+      labels:
+        app: http-tunnel
+    spec:
+      containers:
+      - name: http-tunnel
+        image: poridhi/http-tunnel:v1.0
+        ports:
+        - containerPort: 3000  # Assuming your application runs on port 8080

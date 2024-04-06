@@ -1,0 +1,34 @@
+
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: cloudflared-http
+  name: cloudflared-http
+  namespace: code-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudflared-http
+  template:
+    metadata:
+      labels:
+        app: cloudflared-http
+    spec:
+      containers:
+        - name: cloudflared-http
+          image: cloudflare/cloudflared:latest
+          # image: ghcr.io/maggie0002/cloudflared:2022.7.1
+          imagePullPolicy: Always
+          args:
+            [
+              "tunnel",
+              "--no-autoupdate",
+              "run",
+              "--token=eyJhIjoiZGMwMTdkY2RkOWZiOTMzMmJjNTRhNDgxODIwYjhlMjYiLCJ0IjoiYTVkNTY1YzctYjc5Yy00MjcyLWI3OGEtMzBhMjNmOTEyMDllIiwicyI6Ik1qTm1ORFUwTmpRdE1XTm1OeTAwTm1GbExUaGxZemd0Wm1ZeVl6ZGlabVJrTW1SayJ9",
+            ]
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 60

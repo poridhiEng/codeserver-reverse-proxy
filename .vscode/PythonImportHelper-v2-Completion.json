@@ -1,0 +1,61 @@
+[
+    {
+        "label": "Flask",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "jsonify",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "redirect",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "proxy",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def proxy(path):\n    namespace, _, rest = path.partition(\"/\")  # Split the path into namespace and the rest\n    # Check if the namespace exists in the mapping\n    if namespace not in container_urls:\n        return \"Namespace Not Found\", 404  # Return a \"Namespace Not Found\" response\n    # Get the corresponding Docker container URL for the namespace\n    docker_url = container_urls[namespace]\n    # Construct the target URL by appending the remaining path\n    target_url = f\"{docker_url}/{rest}\"\n    return redirect(target_url)  # Redirect to the target URL",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "app = Flask(__name__)  # Create a Flask application instance\n# Define a mapping of namespaces to Docker container URLs\ncontainer_urls = {\n    \"ns1\": \"http://localhost:7080\",\n    \"ns2\": \"http://localhost:8080\"\n}\n@app.route(\"/\", defaults={\"path\": \"\"})  # Define a route for the root path \"/\"\n@app.route(\"/<path:path>\")  # Define a route with a dynamic path\ndef proxy(path):\n    namespace, _, rest = path.partition(\"/\")  # Split the path into namespace and the rest",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "container_urls",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "container_urls = {\n    \"ns1\": \"http://localhost:7080\",\n    \"ns2\": \"http://localhost:8080\"\n}\n@app.route(\"/\", defaults={\"path\": \"\"})  # Define a route for the root path \"/\"\n@app.route(\"/<path:path>\")  # Define a route with a dynamic path\ndef proxy(path):\n    namespace, _, rest = path.partition(\"/\")  # Split the path into namespace and the rest\n    # Check if the namespace exists in the mapping\n    if namespace not in container_urls:",
+        "detail": "app",
+        "documentation": {}
+    }
+]

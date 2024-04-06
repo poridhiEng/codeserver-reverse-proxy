@@ -1,0 +1,33 @@
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: cloudflared-code
+  name: cloudflared-code
+  namespace: code-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudflared-code
+  template:
+    metadata:
+      labels:
+        app: cloudflared-code
+    spec:
+      containers:
+        - name: cloudflared-code
+          image: cloudflare/cloudflared:latest
+          # image: ghcr.io/maggie0002/cloudflared:2022.7.1
+          imagePullPolicy: Always
+          args:
+            [
+              "tunnel",
+              "--no-autoupdate",
+              "run",
+              "--token=eyJhIjoiZGMwMTdkY2RkOWZiOTMzMmJjNTRhNDgxODIwYjhlMjYiLCJ0IjoiN2MxY2NhZTctMWY4OC00MjZmLWJkOWQtZWI2OTRhNTkyNWMzIiwicyI6IllXRXdNMkpoT0RNdFkySmxNaTAwTlRBekxUZzVOakV0TURnNE4yVXlPR015WlRNMCJ9",
+            ]
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 60
