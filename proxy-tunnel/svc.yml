@@ -11,3 +11,5 @@ spec:
       port: 3000  # The port on which the service will be exposed within the cluster
       targetPort: 3000  # The port on which the container listens
   type: ClusterIP
+
+ eyJhIjoiZGMwMTdkY2RkOWZiOTMzMmJjNTRhNDgxODIwYjhlMjYiLCJ0IjoiMDkxMTBmYTMtOTU3Ny00NzVhLWIzMWQtNWViM2NkNzIwNzM0IiwicyI6Ik5UWXdNVEV5WkdFdFl6VTJZaTAwTkRGa0xUZzNOamt0T1RGa01tUTFPV1F4TkRGaCJ9

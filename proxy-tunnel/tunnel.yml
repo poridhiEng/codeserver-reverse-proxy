@@ -1,25 +1,23 @@
 
-
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: cloudflared-http
-  name: cloudflared-http
-  namespace: code-server
+    app: cloudflared-proxy
+  name: cloudflared-proxy
+  namespace: http-tunnel
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: cloudflared-http
+      app: cloudflared-proxy
   template:
     metadata:
       labels:
-        app: cloudflared-http
+        app: cloudflared-proxy
     spec:
       containers:
-        - name: cloudflared-http
+        - name: cloudflared-proxy
           image: cloudflare/cloudflared:latest
           # image: ghcr.io/maggie0002/cloudflared:2022.7.1
           imagePullPolicy: Always
@@ -28,7 +26,8 @@ spec:
               "tunnel",
               "--no-autoupdate",
               "run",
-              "--token=eyJhIjoiZGMwMTdkY2RkOWZiOTMzMmJjNTRhNDgxODIwYjhlMjYiLCJ0IjoiYTVkNTY1YzctYjc5Yy00MjcyLWI3OGEtMzBhMjNmOTEyMDllIiwicyI6Ik1qTm1ORFUwTmpRdE1XTm1OeTAwTm1GbExUaGxZemd0Wm1ZeVl6ZGlabVJrTW1SayJ9",
+              "--token=eyJhIjoiZGMwMTdkY2RkOWZiOTMzMmJjNTRhNDgxODIwYjhlMjYiLCJ0IjoiYTQxYzM5ZWUtZTMwYy00YjQzLWI2ZDQtZDI3NzJjNzQxNzVjIiwicyI6Ik5ETXdNbVUwTjJFdE1XVTRPUzAwTWpKbExXSTROelF0T1dFellXTTVOMlZtWmprMiJ9",
             ]
       restartPolicy: Always
       terminationGracePeriodSeconds: 60
+

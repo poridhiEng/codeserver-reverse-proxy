@@ -36,41 +36,50 @@
 // app.listen(3000, () => {
 //   console.log('Server is listening on port 3000');
 // });
+const express = require('express');
 const http = require('http');
 const https = require('https');
 const { URL } = require('url');
+
+const app = express();
 
 const k8sFQDN = 'codeserver-python-service.code-server.svc.cluster.local'; // Replace with your Kubernetes service FQDN
 const k8sPort = 443; // Adjust port as necessary
 const proxyPort = 8080; // Port for the proxy server to listen on
 
-const proxyServer = http.createServer((clientReq, clientRes) => {
+// Route for simple ping
+app.get('/ping', (req, res) => {
+  res.status(200).send('pong');
+});
+
+// Route for connecting to the Kubernetes service via FQDN
+app.get('/connect', (req, res) => {
   const options = {
     hostname: k8sFQDN,
     port: k8sPort,
-    path: clientReq.url,
-    method: clientReq.method,
-    headers: clientReq.headers
+    path: req.url,
+    method: 'GET', // Assuming it's always a GET request for simplicity
+    headers: req.headers
   };
 
   const proxyReq = https.request(options, (proxyRes) => {
-    clientRes.writeHead(proxyRes.statusCode, proxyRes.headers);
-    proxyRes.pipe(clientRes, {
+    res.writeHead(proxyRes.statusCode, proxyRes.headers);
+    proxyRes.pipe(res, {
       end: true
     });
   });
 
-  clientReq.pipe(proxyReq, {
-    end: true
-  });
-
   proxyReq.on('error', (err) => {
     console.error('Error occurred while making request to Kubernetes service:', err);
-    clientRes.statusCode = 500;
-    clientRes.end('Proxy Error');
+    res.status(500).send('Proxy Error');
+  });
+
+  req.pipe(proxyReq, {
+    end: true
   });
 });
 
-proxyServer.listen(proxyPort, () => {
+// Start the proxy server
+app.listen(proxyPort, () => {
   console.log(`Proxy server listening on port ${proxyPort}`);
 });
