@@ -1,4 +1,4 @@
-tag := v1.2
+tag := v2.4
 repo := poridhi
 image := codeserver-proxy
 
