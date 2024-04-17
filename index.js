@@ -3,33 +3,54 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const app = express();
 
-function logger(req, res, next) {
-  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
-  next();
-}
-
-app.use(logger);
-
 app.use(
   '/:api',
   (req, res, next) => {
-    // Extracting the :api parameter from the request URL
     const api = req.params.api;
-    // Constructing the dynamic target URL
+
     const target = `${api}.${api}.svc.cluster.local`;
-    // Logging the constructed target URL
+
     console.log(`[${new Date().toISOString()}] Target URL: ${target}`);
-    // Updating the target option in the proxy middleware
+
     req.proxyTarget = target;
     next();
   },
   createProxyMiddleware({
     target: function(req) { 
-      // Accessing the dynamically constructed target URL from the request object
+
       return req.proxyTarget;
     },
     ws: true,
-    logLevel: 'debug',
+    on:{
+        proxyReq: (proxyReq, req, res) => {
+            // this request are being sent to the target server
+            console.log(`[proxy request to target server] ${proxyReq.socket.connecting === true ? "Proxy Connection Trying to Established With Target Server" : "Establishing Proxy Connection Failed"}`);
+            console.log(`[proxy request to target server] Protocol : ${proxyReq.protocol.split(':')} Host : ${proxyReq.host}`);
+            },
+
+
+        proxyRes: (proxyRes, req, res) => {
+            console.log(`[target server respond to proxy server] Target Server Connected To Proxy Server`);
+            },
+
+        proxyReqWs: (proxyReq, req, socket, options, head) => {
+            let isConnected = proxyReq.agent.sockets[`${target}:`][0].connecting;
+            console.log(`[WebSocket requests to the target server] ${isConnected === true ? "Socket Connection Established" : "Establishing Socket Connection Failed"}`);
+    
+            },
+        open: (proxySocket) => {
+                console.log(`[connection] Proxy connection established`);
+              },
+
+        close: (res, socket, head) => {
+            console.log('[connection closed] Proxy connection closed');
+            },
+
+      // for errors
+      error:(err,req,res,target)=>{
+        console.log(`[Proxy Err] ${err}`);
+      }
+    }
   }),
 );
 
